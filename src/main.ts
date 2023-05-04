@@ -1,10 +1,12 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import "./styles.css"
+import {listen} from "@tauri-apps/api/event";
 
 let helloButtonEl: HTMLInputElement | null;
 let helloMsgEl: HTMLElement | null;
 let clickButton: HTMLElement | null;
 let clickDiv: HTMLElement | null;
+let keepAlive: HTMLElement | null;
 
 async function greet() {
   // console.log("called this function")
@@ -52,6 +54,15 @@ window.addEventListener("DOMContentLoaded", () => {
   clickDiv = document.querySelector("#click-div")
 
   clickButton?.addEventListener("click", () => addTwo())
+
+  // KeepAlive 组件
+  keepAlive = document.querySelector(".keep-alive")
+  listen("keep-alive", () => {
+    keepAlive?.classList.add("on")
+    setTimeout(() => {
+      keepAlive?.classList.remove("on")
+    }, 2000)
+  })
 
   /*let timer: number | null;
 

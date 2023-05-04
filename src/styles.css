@@ -107,3 +107,15 @@ button {
     background-color: #0f0f0f69;
   }
 }
+
+.keep-alive {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 auto;
+  border: 1px black;
+  background-color: red;
+}
+
+.keep-alive.on {
+  background-color: greenyellow;
+}
