@@ -3,28 +3,57 @@ import "./styles.css"
 
 let helloButtonEl: HTMLInputElement | null;
 let helloMsgEl: HTMLElement | null;
+let clickButton: HTMLElement | null;
+let clickDiv: HTMLElement | null;
 
 async function greet() {
+  // console.log("called this function")
   if (helloButtonEl && helloMsgEl) {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    helloMsgEl.textContent = (await invoke("hello")) as string;
+    helloMsgEl.textContent = (await invoke("hello", {
+      msg: "Akokko"
+    })) as string;
+  }
+
+  setTimeout(() => {
+    helloMsgEl!.textContent = "Again"
+  }, 1000)
+
+}
+
+async function addTwo() {
+  console.log("js called addTwo()")
+  if (clickDiv) {
+    clickDiv.textContent = await invoke("add_two", {
+      num: 2
+    }) as string
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  // Hello组件
   helloButtonEl = document.querySelector("#hello-button");
   // 第二种写法
   /*helloButtonEl = document.querySelector.bind(document)(
       "#hello-button"
   ) as HTMLInputElement*/
   helloMsgEl = document.querySelector("#hello-msg") as HTMLElement;
+
   helloButtonEl?.addEventListener("click", () => greet());
 
   /*helloMsgEl?.addEventListener("pointerup", async () => {
-    // const result = (await invoke("hello")) as string;
+    const result = (await invoke("hello")) as string;
+    if (helloMsgEl == null) return
+    helloMsgEl.textContent = result;
   });*/
 
-  let timer: number | null;
+  // Click组件
+  clickButton = document.querySelector("#click-button")
+  clickDiv = document.querySelector("#click-div")
+
+  clickButton?.addEventListener("click", () => addTwo())
+
+  /*let timer: number | null;
 
   const appContent = document.querySelector("#hello-msg") as HTMLElement;
   appContent.addEventListener("pointerup", async () => {
@@ -33,5 +62,5 @@ window.addEventListener("DOMContentLoaded", () => {
     timer = setTimeout(() => {
       appContent.textContent = "Again";
     }, 1000)
-  })
+  })*/
 });
